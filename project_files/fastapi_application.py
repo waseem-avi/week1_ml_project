@@ -1,5 +1,6 @@
 from core.model.input_features import FeatureInput
 
+
 from fastapi import FastAPI, Form
 from typing import List
 
@@ -50,14 +51,24 @@ job_titles = [
     'Lead Data Engineer', 'Head of Machine Learning', 'Principal Data Analyst',
     'Principal Data Engineer', 'Staff Data Scientist', 'Finance Data Analyst'
 ]  # Add all job titles
-salary_currencies = ['USD', 'EUR', 'GBP', 'INR', 'JPY', 'AUD', 'CAD', 'CHF', 'CNY', 'SEK']  # Add all currencies
-employee_residences = ['US', 'UK', 'India', 'Germany', 'France', 'Australia', 'Canada', 'China', 'Japan']  # Add all countries
-company_locations = ['New York', 'London', 'Bangalore', 'Berlin', 'Paris', 'Sydney', 'Toronto', 'Beijing', 'Tokyo']  # Add all locations
+salary_currencies =['EUR', 'USD', 'INR', 'HKD', 'CHF', 'GBP', 'AUD', 'SGD', 'CAD', 'ILS', 'BRL', 'THB', 'PLN', 'HUF', 'CZK', 'DKK', 'JPY', 'MXN', 'TRY', 'CLP']  # Add all currencies
+employee_residences = ['ES', 'US', 'CA', 'DE', 'GB', 'NG', 'IN', 'HK', 'PT', 'NL', 'CH', 'CF', 'FR', 'AU',
+             'FI', 'UA', 'IE', 'IL', 'GH', 'AT', 'CO', 'SG', 'SE', 'SI', 'MX', 'UZ', 'BR', 'TH',
+             'HR', 'PL', 'KW', 'VN', 'CY', 'AR', 'AM', 'BA', 'KE', 'GR', 'MK', 'LV', 'RO', 'PK',
+             'IT', 'MA', 'LT', 'BE', 'AS', 'IR', 'HU', 'SK', 'CN', 'CZ', 'CR', 'TR', 'CL', 'PR',
+             'DK', 'BO', 'PH', 'DO', 'EG', 'ID', 'AE', 'MY', 'JP', 'EE', 'HN', 'TN', 'RU', 'DZ',
+             'IQ', 'BG', 'JE', 'RS', 'NZ', 'MD', 'LU', 'MT']  # Add all countries
+company_locations = ['ES', 'US', 'CA', 'DE', 'GB', 'NG', 'IN', 'HK', 'NL', 'CH', 'CF', 'FR', 'FI', 'UA',
+             'IE', 'IL', 'GH', 'CO', 'SG', 'AU', 'SE', 'SI', 'MX', 'BR', 'PT', 'RU', 'TH', 'HR',
+             'VN', 'EE', 'AM', 'BA', 'KE', 'GR', 'MK', 'LV', 'RO', 'PK', 'IT', 'MA', 'PL', 'AL',
+             'AR', 'LT', 'AS', 'CR', 'IR', 'BS', 'HU', 'AT', 'SK', 'CZ', 'TR', 'PR', 'DK', 'BO',
+             'PH', 'BE', 'ID', 'EG', 'AE', 'LU', 'MY', 'HN', 'JP', 'DZ', 'IQ', 'CN', 'NZ', 'CL',
+             'MD', 'MT']  # Add all locations
 company_sizes = ['L', 'S', 'M']  # Large, Small, Medium
 
 
 # POST endpoint to handle form submission
-@app.post("/predict-salary/")
+@app.post("/predict-salary")
 async def predict_salary( 
     
     experience_level: str = Form(..., title="Experience Level", description="Select your experience level", enum=experience_levels),
@@ -68,8 +79,11 @@ async def predict_salary(
     company_location: str = Form(..., title="Company Location", description="Select your company location", enum=company_locations),
     company_size: str = Form(..., title="Company Size", description="Select your company size", enum=company_sizes)
 ):
+    user_input = List(experience_level,employment_type,job_title,salary_currency,employee_residence,company_location,company_size)
+
     print("predicted")
-    return {"predicted_salary": "tiweeentiii rupees"}
+    predicted_salary = -1
+    return {"predicted_salary": f"{predicted_salary}"}
 
 
 
