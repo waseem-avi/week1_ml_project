@@ -1,14 +1,15 @@
 from core.model.input_features import FeatureInput
 from utils.files_loader import encoder, model
+import mongoengine
 
 
 
 from fastapi import FastAPI, Form
 from typing import List
 
+from config.v1.database_config import mongo_config
 
-
-
+mongoengine.connect(db='salary_data', host = mongo_config.mongo_host)
 # Create FastAPI instance
 app = FastAPI()
 
