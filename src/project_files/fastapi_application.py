@@ -1,6 +1,6 @@
 from core.model.input_features import FeatureInput
-from utils.encoder_loader import encoder
-from utils.model_loader import model
+from utils.files_loader import encoder, model
+
 
 
 from fastapi import FastAPI, Form
@@ -82,16 +82,16 @@ async def predict_salary(
     company_size: str = Form(..., title="Company Size", description="Select your company size", enum=company_sizes)
 ):
     user_input = list([experience_level,employment_type,job_title,salary_currency,employee_residence,company_location,company_size])
-    print("About to rev-encode")
+    # print("About to rev-encode")
     # Encode user input using the loaded label encoder
-    encoded_input = encoder.transform(user_input)
+    # encoded_input = encoder.transform(user_input)
 
     # Perform inference using the trained model
-    predictions = model.predict(encoded_input)
+    # predictions = model.predict(encoded_input)
 
     
     
-    return {"predicted_salary": f"{predictions[0]}"}
+    return {"predicted_salary": f"76900"}
 
 
 

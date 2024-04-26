@@ -24,6 +24,6 @@ RUN poetry install
 
 # Copy the src into the working directory
 COPY src .
-
+EXPOSE 8000
 # Command to run your application
 CMD ["poetry", "run", "python", "project_files/fastapi_application.py"]
