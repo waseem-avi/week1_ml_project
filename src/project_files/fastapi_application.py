@@ -1,4 +1,6 @@
 from core.model.input_features import FeatureInput
+from utils.encoder_loader import encoder
+from utils.model_loader import model
 
 
 from fastapi import FastAPI, Form
@@ -79,15 +81,21 @@ async def predict_salary(
     company_location: str = Form(..., title="Company Location", description="Select your company location", enum=company_locations),
     company_size: str = Form(..., title="Company Size", description="Select your company size", enum=company_sizes)
 ):
-    user_input = List(experience_level,employment_type,job_title,salary_currency,employee_residence,company_location,company_size)
+    user_input = list([experience_level,employment_type,job_title,salary_currency,employee_residence,company_location,company_size])
+    print("About to rev-encode")
+    # Encode user input using the loaded label encoder
+    encoded_input = encoder.transform(user_input)
 
-    print("predicted")
-    predicted_salary = -1
-    return {"predicted_salary": f"{predicted_salary}"}
+    # Perform inference using the trained model
+    predictions = model.predict(encoded_input)
+
+    
+    
+    return {"predicted_salary": f"{predictions[0]}"}
 
 
 
-# Run the FastAPI application with uvicorn server
+# # Run the FastAPI application with uvicorn server
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="localhost", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)

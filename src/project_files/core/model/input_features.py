@@ -9,3 +9,10 @@ class FeatureInput(BaseModel):
     employee_residence: str
     company_location: str
     company_size: str
+
+# work_year	
+
+# salary
+
+
+# remote_ratio
