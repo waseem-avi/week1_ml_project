@@ -1,20 +1,15 @@
 from fastapi import FastAPI, Request, Form, HTTPException
 from fastapi.responses import HTMLResponse
-import pickle
+
 import numpy as np
-from pydantic import BaseModel
-from sklearn.preprocessing import StandardScaler
+
+from models.pydantic_model import CarData
+from utils.files_loader import model 
+import  utils.input_tranformer 
 
 app = FastAPI()
 
-class CarData(BaseModel):
-    Year: int
-    Present_Price: float
-    Kms_Driven: int
-    Owner: int
-    Fuel_Type_Petrol: str
-    Seller_Type_Individual: str
-    Transmission_Mannual: str
+
 
 @app.get("/", response_class=HTMLResponse)
 async def home():
@@ -38,8 +33,8 @@ async def home():
                 <input type="text" id="Fuel_Type_Petrol" name="Fuel_Type_Petrol"><br>
                 <label for="Seller_Type_Individual">Seller Type (Individual/Dealer):</label><br>
                 <input type="text" id="Seller_Type_Individual" name="Seller_Type_Individual"><br>
-                <label for="Transmission_Mannual">Transmission Type (Manual/Automatic):</label><br>
-                <input type="text" id="Transmission_Mannual" name="Transmission_Mannual"><br><br>
+                <label for="Transmission_Manual">Transmission Type (Manual/Automatic):</label><br>
+                <input type="text" id="Transmission_Manual" name="Transmission_Manual"><br><br>
                 <input type="submit" value="Predict">
             </form>
         </body>
@@ -54,20 +49,14 @@ async def predict(
     Owner: int = Form(...),
     Fuel_Type_Petrol: str = Form(...),
     Seller_Type_Individual: str = Form(...),
-    Transmission_Mannual: str = Form(...)
+    Transmission_Manual: str = Form(...)
 ):
-    # Load the model
-    model = pickle.load(open('src/car_price_prediction/datafiles/random_forest_regression_model.pkl', 'rb'))
+    input_feats= utils.input_tranformer.tranformer (Present_Price, Kms_Driven, Owner,  Fuel_Type_Petrol, Seller_Type_Individual, Transmission_Manual, Year)
 
-    # Transform input data
-    Kms_Driven2 = np.log(Kms_Driven)
-    Fuel_Type_Diesel = 1 if Fuel_Type_Petrol == 'Petrol' else 0
-    Seller_Type_Individual = 1 if Seller_Type_Individual == 'Individual' else 0
-    Transmission_Mannual = 1 if Transmission_Mannual == 'Mannual' else 0
-    Year = 2024 - Year
+   
 
     # Make prediction
-    prediction = model.predict([[Present_Price, Kms_Driven2, Owner, Year, Fuel_Type_Diesel, 1 - Fuel_Type_Diesel, Seller_Type_Individual, Transmission_Mannual]])
+    prediction = model.predict([input_feats])
     output = round(prediction[0], 2)
 
     # Check for invalid predictions
