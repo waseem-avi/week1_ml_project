@@ -5,7 +5,8 @@ import numpy as np
 
 from models.pydantic_model import CarData
 from utils.files_loader import model 
-import  utils.input_tranformer 
+from utils.input_transformer import transformer
+
 
 app = FastAPI()
 
@@ -51,7 +52,7 @@ async def predict(
     Seller_Type_Individual: str = Form(...),
     Transmission_Manual: str = Form(...)
 ):
-    input_feats= utils.input_tranformer.tranformer (Present_Price, Kms_Driven, Owner,  Fuel_Type_Petrol, Seller_Type_Individual, Transmission_Manual, Year)
+    input_feats = transformer(Present_Price, Kms_Driven, Owner,  Fuel_Type_Petrol, Seller_Type_Individual, Transmission_Manual, Year)
 
    
 

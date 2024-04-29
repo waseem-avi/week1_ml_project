@@ -1,5 +1,5 @@
 import numpy as np
-def tranformer (Present_Price, Kms_Driven, Owner,  Fuel_Type_Petrol, Seller_Type_Individual, Transmission_Manual, Year):
+def transformer (Present_Price, Kms_Driven, Owner,  Fuel_Type_Petrol, Seller_Type_Individual, Transmission_Manual, Year):
     Kms_Driven2 = np.log(Kms_Driven)
     Fuel_Type_Diesel = 1 if Fuel_Type_Petrol == 'Petrol' else 0
     Seller_Type_Individual = 1 if Seller_Type_Individual == 'Individual' else 0
