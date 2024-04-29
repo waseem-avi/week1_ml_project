@@ -27,3 +27,4 @@ COPY . .
 EXPOSE 8000
 # Command to run your application
 CMD ["poetry", "run", "python", "src/car_price_prediction/fastapi_application.py"]
+# CMD ["sleep", "infinity"]
