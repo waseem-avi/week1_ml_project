@@ -23,7 +23,7 @@ COPY pyproject.toml poetry.lock ./
 RUN poetry install
 
 # Copy the src into the working directory
-COPY src .
+COPY . .
 EXPOSE 8000
 # Command to run your application
-CMD ["poetry", "run", "python", "project_files/fastapi_application.py"]
+CMD ["poetry", "run", "python", "src/car_price_prediction/fastapi_application.py"]
